@@ -9,6 +9,16 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.org.jooq)
+    implementation(libs.org.jooq.meta)
+    implementation(libs.org.jooq.codegen)
+
+    implementation("org.testcontainers:testcontainers:1.20.1")
+    implementation("org.testcontainers:postgresql:1.20.1")
+
+    implementation("org.postgresql:postgresql:42.2.5")
+    implementation(libs.org.flyway.core)
+
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

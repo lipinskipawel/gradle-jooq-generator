@@ -1,13 +1,7 @@
 [versions]
-flywayVersion = "10.17.1"
-jooqVersion = "3.19.11"
+assertj = "3.26.3"
 
 [libraries]
-org-flyway-core = { group = "org.flywaydb", name = "flyway-core", version.ref = "flywayVersion" }
-
-org-jooq = { group = "org.jooq", name = "jooq", version.ref = "jooqVersion" }
-org-jooq-meta = { group = "org.jooq", name = "jooq-meta", version.ref = "jooqVersion" }
-org-jooq-codegen = { group = "org.jooq", name = "jooq-codegen", version.ref = "jooqVersion" }
+testing-assertj = { module = "org.assertj:assertj-core" }
 
 [plugins]
-jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.22" }

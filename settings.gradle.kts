@@ -1,11 +1,11 @@
 pluginManagement {
-    includeBuild("plugin")
+    includeBuild("jooq-generator")
     repositories {
         mavenCentral()
         gradlePluginPortal()
     }
 }
 
-rootProject.name = "jooq-generator"
+rootProject.name = "gradle-jooq-generator"
 
 include("app")

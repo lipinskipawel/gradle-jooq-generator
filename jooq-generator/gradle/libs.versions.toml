@@ -1,9 +1,10 @@
 [versions]
-flywayVersion = "10.17.1"
+flywayVersion = "10.17.3"
 jooqVersion = "3.19.11"
 
 [libraries]
 org-flyway-core = { group = "org.flywaydb", name = "flyway-core", version.ref = "flywayVersion" }
+org-flyway-postgres = { group = "org.flywaydb", name = "flyway-database-postgresql", version.ref = "flywayVersion" }
 
 org-jooq = { group = "org.jooq", name = "jooq", version.ref = "jooqVersion" }
 org-jooq-meta = { group = "org.jooq", name = "jooq-meta", version.ref = "jooqVersion" }

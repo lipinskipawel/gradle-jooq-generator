@@ -11,6 +11,6 @@ class JooqGeneratorPluginTest {
         val project = ProjectBuilder.builder().build()
         project.plugins.apply("org.example.greeting")
 
-        assertNotNull(project.tasks.findByName("greeting"))
+        assertNotNull(project.tasks.findByName("jooqGenerate"))
     }
 }

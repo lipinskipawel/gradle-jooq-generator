@@ -18,6 +18,7 @@ dependencies {
 
     implementation("org.postgresql:postgresql:42.2.5")
     implementation(libs.org.flyway.core)
+    runtimeOnly(libs.org.flyway.postgres)
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

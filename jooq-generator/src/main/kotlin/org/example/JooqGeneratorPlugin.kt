@@ -1,61 +1,23 @@
 package org.example
 
-import org.flywaydb.core.Flyway
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.jooq.codegen.GenerationTool
-import org.jooq.meta.jaxb.Configuration
-import org.jooq.meta.jaxb.Database
-import org.jooq.meta.jaxb.Generator
-import org.jooq.meta.jaxb.Jdbc
-import org.jooq.meta.jaxb.Target
-import org.testcontainers.containers.PostgreSQLContainer
+import org.gradle.api.logging.LogLevel
 
 class JooqGeneratorPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        project.tasks.register("jooqGenerator") { task ->
-            val user = "postgres"
-            val password = "postgres"
-            val port = 6543
+        project.gradle.sharedServices.registerIfAbsent("postgres", PostgresService::class.java) { spec ->
+            spec.parameters.getUser().set("user")
+            spec.parameters.getPassword().set("pass")
+        }
 
-            val postgresSQLContainer = PostgreSQLContainer("postgres:16.4")
-                .withUsername(user)
-                .withPassword(password)
-            postgresSQLContainer.addExposedPort(port)
-            postgresSQLContainer.start()
-
-            Flyway.configure()
-                .dataSource(postgresSQLContainer.jdbcUrl, user, password)
-                .locations("src/main/resources/db/migration")
-                .load()
-                .migrate()
-
-            val configuration = Configuration()
-                .withJdbc(
-                    Jdbc()
-                        .withDriver("org.postgresql.Driver")
-                        .withUrl(postgresSQLContainer.jdbcUrl)
-                        .withUser(user)
-                        .withPassword(password)
-                )
-                .withGenerator(
-                    Generator()
-                        .withDatabase(
-                            Database()
-                                .withName("org.jooq.meta.postgres.PostgresDatabase")
-                                .withIncludes(".*")
-                                .withExcludes("")
-                                .withInputSchema("public")
-                        )
-                        .withTarget(
-                            Target()
-                                .withPackageName("org.jooq.codegen")
-                                .withDirectory("build/generated-sources/jooq")
-                        )
-                )
-
-            GenerationTool.generate(configuration)
+        project.tasks.register("jooqGenerate", GenerateJooq::class.java) { task ->
+            task.logging.captureStandardOutput(LogLevel.DEBUG)
+            task.logging.captureStandardError(LogLevel.DEBUG)
+            val from = project.objects.fileCollection().from("src/main/resources/db/migration")
+            task.inputDirectory.setFrom(from)
+            task.outputDirectory.convention(project.layout.buildDirectory.dir("generated-sources"))
 
             task.doLast {
                 println("Hello from plugin 'org.example.greeting'")

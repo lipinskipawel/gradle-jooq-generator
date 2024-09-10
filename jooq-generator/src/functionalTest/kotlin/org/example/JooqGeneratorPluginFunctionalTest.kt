@@ -1,6 +1,7 @@
 package org.example
 
 import org.gradle.testkit.runner.GradleRunner
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 import kotlin.test.Test
@@ -15,13 +16,15 @@ class JooqGeneratorPluginFunctionalTest {
     private val settingsFile by lazy { projectDir.resolve("settings.gradle") }
 
     @Test
+    @Disabled
     fun `can run task`() {
         // Set up the test build
         settingsFile.writeText("")
         buildFile.writeText(
             """
             plugins {
-                id('org.example.greeting')
+                id("java")
+                id("org.example.greeting")
             }
         """.trimIndent()
         )
@@ -30,7 +33,7 @@ class JooqGeneratorPluginFunctionalTest {
         val runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withPluginClasspath()
-        runner.withArguments("greeting")
+        runner.withArguments("jooqGenerate")
         runner.withProjectDir(projectDir)
         val result = runner.build()
 

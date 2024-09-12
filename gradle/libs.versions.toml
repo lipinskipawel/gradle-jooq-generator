@@ -2,6 +2,6 @@
 assertj = "3.26.3"
 
 [libraries]
-testing-assertj = { module = "org.assertj:assertj-core" }
+testing-assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 
 [plugins]

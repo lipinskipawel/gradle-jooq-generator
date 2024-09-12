@@ -7,6 +7,14 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation("org.jooq:jooq:3.19.11")
+}
+
+tasks.named("compileJava") {
+    dependsOn("jooqGenerate")
+}
+
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {

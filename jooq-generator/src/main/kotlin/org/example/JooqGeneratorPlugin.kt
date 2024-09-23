@@ -13,8 +13,8 @@ class JooqGeneratorPlugin : Plugin<Project> {
         jooqGeneratorExt.jooqOutputDirector.convention(project.layout.buildDirectory.dir("generated-sources"))
 
         project.gradle.sharedServices.registerIfAbsent("postgres", PostgresService::class.java) { spec ->
-            spec.parameters.getUser().set("user")
-            spec.parameters.getPassword().set("pass")
+            spec.parameters.user.set("user")
+            spec.parameters.password.set("pass")
         }
 
         addJooqClassesToMainSourceSet(project, jooqGeneratorExt)

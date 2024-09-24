@@ -10,6 +10,7 @@ class JooqGeneratorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val jooqGeneratorExt = project.extensions.create("jooqGenerator", JooqGeneratorExtension::class.java)
         jooqGeneratorExt.flywayMigrationFiles.setFrom(project.files("src/main/resources/db/migration"))
+        jooqGeneratorExt.excludeFlywayTable.convention(true)
         jooqGeneratorExt.jooqOutputDirector.convention(project.layout.buildDirectory.dir("generated-sources"))
 
         project.gradle.sharedServices.registerIfAbsent("postgres", PostgresService::class.java) { spec ->
@@ -22,6 +23,8 @@ class JooqGeneratorPlugin : Plugin<Project> {
         project.tasks.register("jooqGenerate", GenerateJooq::class.java) { task ->
             task.inputDirectory.setFrom(jooqGeneratorExt.flywayMigrationFiles)
             task.outputDirectory.convention(jooqGeneratorExt.jooqOutputDirector)
+
+            task.excludeFlywayTable.set(jooqGeneratorExt.excludeFlywayTable)
 
             task.doLast {
                 println("Hello from plugin 'org.example.greeting'")

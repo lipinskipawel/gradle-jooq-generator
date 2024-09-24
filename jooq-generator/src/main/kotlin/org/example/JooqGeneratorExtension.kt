@@ -2,9 +2,11 @@ package org.example
 
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.Property
 
-interface JooqGeneratorExtension {
+abstract class JooqGeneratorExtension {
 
-    val flywayMigrationFiles: ConfigurableFileCollection
-    val jooqOutputDirector: DirectoryProperty
+    abstract val flywayMigrationFiles: ConfigurableFileCollection
+    abstract val excludeFlywayTable: Property<Boolean>
+    abstract val jooqOutputDirector: DirectoryProperty
 }

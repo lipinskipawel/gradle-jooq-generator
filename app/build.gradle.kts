@@ -15,6 +15,10 @@ tasks.named("compileJava") {
     dependsOn("jooqGenerate")
 }
 
+jooqGenerator {
+    excludeFlywayTable = true
+}
+
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {

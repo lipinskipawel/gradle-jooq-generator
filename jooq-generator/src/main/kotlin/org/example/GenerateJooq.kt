@@ -7,6 +7,7 @@ import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Property
 import org.gradle.api.services.ServiceReference
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
@@ -38,6 +39,9 @@ abstract class GenerateJooq : DefaultTask() {
 
     @get:OutputDirectory
     abstract val outputDirectory: DirectoryProperty
+
+    @get:Input
+    abstract val excludeFlywayTable: Property<Boolean>
 
     @TaskAction
     fun taskAction() {
@@ -84,15 +88,11 @@ abstract class GenerateJooq : DefaultTask() {
         project.delete(outputDirectory)
         val canonicalName = JavaGenerator::class.java.canonicalName
         val string = outputDirectory.get().asFile.toString()
+        val withJdbc = configureJdbc(jdbc, user, password)
+        val withDatabase = configureDatabase()
         val configuration = Configuration()
             .withLogging(Logging.WARN)
-            .withJdbc(
-                Jdbc()
-                    .withDriver("org.postgresql.Driver")
-                    .withUrl(jdbc)
-                    .withUser(user)
-                    .withPassword(password)
-            )
+            .withJdbc(withJdbc)
             .withGenerator(
                 Generator()
                     .withName(canonicalName)
@@ -100,13 +100,7 @@ abstract class GenerateJooq : DefaultTask() {
                         Strategy()
                             .withName("org.jooq.codegen.DefaultGeneratorStrategy")
                     )
-                    .withDatabase(
-                        Database()
-                            .withName("org.jooq.meta.postgres.PostgresDatabase")
-                            .withIncludes(".*")
-                            .withExcludes("")
-                            .withInputSchema("public")
-                    )
+                    .withDatabase(withDatabase)
                     .withGenerate(
                         Generate()
                             .withDeprecated(false)
@@ -125,5 +119,28 @@ abstract class GenerateJooq : DefaultTask() {
         val generationTool = GenerationTool()
         generationTool.setClassLoader(classLoader)
         generationTool.run(configuration)
+    }
+
+    private fun configureJdbc(jdbc: String, user: String, password: String): Jdbc {
+        return Jdbc()
+            .withDriver("org.postgresql.Driver")
+            .withUrl(jdbc)
+            .withUser(user)
+            .withPassword(password)
+    }
+
+    private fun configureDatabase(): Database {
+        val database = Database()
+            .withName("org.jooq.meta.postgres.PostgresDatabase")
+            .withIncludes(".*")
+            .withExcludes("")
+            .withInputSchema("public")
+
+        if (excludeFlywayTable.get()) {
+            val excludes = database.excludes
+            database.excludes = "$excludes|flyway_schema_history"
+        }
+
+        return database
     }
 }

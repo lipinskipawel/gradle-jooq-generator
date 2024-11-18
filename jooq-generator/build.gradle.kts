@@ -26,9 +26,9 @@ dependencies {
 
 gradlePlugin {
     // Define the plugin
-    val greeting by plugins.creating {
-        id = "org.example.greeting"
-        implementationClass = "org.example.JooqGeneratorPlugin"
+    val jooqGenerator by plugins.creating {
+        id = "com.github.lipinskipawel.jooq-generator"
+        implementationClass = "com.github.lipinskipawel.JooqGeneratorPlugin"
     }
     version = "0.1.0"
 }

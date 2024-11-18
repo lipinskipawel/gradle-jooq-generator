@@ -1,4 +1,4 @@
-package org.example
+package com.github.lipinskipawel
 
 import org.flywaydb.core.Flyway
 import org.gradle.api.DefaultTask

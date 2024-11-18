@@ -1,4 +1,4 @@
-package org.example
+package com.github.lipinskipawel
 
 import org.gradle.api.services.BuildService
 import org.postgresql.ds.PGSimpleDataSource

@@ -1,4 +1,4 @@
-package com.example;
+package com.github.lipinskipawel;
 
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;

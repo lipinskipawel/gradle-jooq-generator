@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("org.example.greeting") version ("0.1.0")
+    id("com.github.lipinskipawel.jooq-generator") version ("0.1.0")
 }
 
 repositories {

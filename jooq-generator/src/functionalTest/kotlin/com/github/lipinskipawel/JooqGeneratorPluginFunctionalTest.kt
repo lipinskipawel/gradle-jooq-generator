@@ -1,4 +1,4 @@
-package org.example
+package com.github.lipinskipawel
 
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.Disabled
@@ -24,7 +24,7 @@ class JooqGeneratorPluginFunctionalTest {
             """
             plugins {
                 id("java")
-                id("org.example.greeting")
+                id("com.github.lipinskipawel.jooq-generator")
             }
         """.trimIndent()
         )
@@ -38,6 +38,6 @@ class JooqGeneratorPluginFunctionalTest {
         val result = runner.build()
 
         // Verify the result
-        assertTrue(result.output.contains("Hello from plugin 'org.example.greeting'"))
+        assertTrue(result.output.contains("Hello from plugin 'jooq-generator'"))
     }
 }

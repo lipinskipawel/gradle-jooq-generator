@@ -1,4 +1,4 @@
-package com.example;
+package com.github.lipinskipawel;
 
 import org.jooq.TableField;
 import org.jooq.codegen.tables.records.UsersRecord;

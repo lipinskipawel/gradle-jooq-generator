@@ -1,4 +1,4 @@
-package org.example
+package com.github.lipinskipawel
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -27,7 +27,7 @@ class JooqGeneratorPlugin : Plugin<Project> {
             task.excludeFlywayTable.set(jooqGeneratorExt.excludeFlywayTable)
 
             task.doLast {
-                println("Hello from plugin 'org.example.greeting'")
+                println("Hello from plugin 'jooq-generator'")
             }
         }
     }

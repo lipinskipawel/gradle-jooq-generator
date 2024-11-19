@@ -43,6 +43,9 @@ abstract class GenerateJooq : DefaultTask() {
     @get:Input
     abstract val excludeFlywayTable: Property<Boolean>
 
+    @get:Input
+    abstract val initSql: Property<String>
+
     @TaskAction
     fun taskAction() {
         val database = postgres.get()
@@ -68,6 +71,7 @@ abstract class GenerateJooq : DefaultTask() {
         val flyway = Flyway.configure(urlClassLoader)
             .dataSource(dataSource)
             .locations(*location)
+            .initSql(initSql.get())
             .load()
         flyway.migrate()
         return urlClassLoader

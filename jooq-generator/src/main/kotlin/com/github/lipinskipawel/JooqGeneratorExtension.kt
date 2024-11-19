@@ -8,5 +8,7 @@ abstract class JooqGeneratorExtension {
 
     abstract val flywayMigrationFiles: ConfigurableFileCollection
     abstract val excludeFlywayTable: Property<Boolean>
+    abstract val initSql: Property<String>
+
     abstract val jooqOutputDirector: DirectoryProperty
 }

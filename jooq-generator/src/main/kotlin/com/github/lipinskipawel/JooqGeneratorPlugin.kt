@@ -28,6 +28,8 @@ class JooqGeneratorPlugin : Plugin<Project> {
             task.excludeFlywayTable.set(jooqGeneratorExt.excludeFlywayTable)
             task.initSql.set(jooqGeneratorExt.initSql)
 
+            task.syntheticObjectsType.set(jooqGeneratorExt.syntheticObjectsType)
+
             task.doLast {
                 println("Hello from plugin 'jooq-generator'")
             }

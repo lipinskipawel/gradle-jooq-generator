@@ -23,6 +23,7 @@ import org.jooq.meta.jaxb.Generator
 import org.jooq.meta.jaxb.Jdbc
 import org.jooq.meta.jaxb.Logging
 import org.jooq.meta.jaxb.Strategy
+import org.jooq.meta.jaxb.SyntheticObjectsType
 import org.jooq.meta.jaxb.Target
 import java.net.URL
 import java.net.URLClassLoader
@@ -45,6 +46,9 @@ abstract class GenerateJooq : DefaultTask() {
 
     @get:Input
     abstract val initSql: Property<String>
+
+    @get:Input
+    abstract val syntheticObjectsType: Property<SyntheticObjectsType>
 
     @TaskAction
     fun taskAction() {
@@ -139,6 +143,9 @@ abstract class GenerateJooq : DefaultTask() {
             .withIncludes(".*")
             .withExcludes("")
             .withInputSchema("public")
+        if (syntheticObjectsType.isPresent) {
+            database.withSyntheticObjects(syntheticObjectsType.get())
+        }
 
         if (excludeFlywayTable.get()) {
             val excludes = database.excludes
